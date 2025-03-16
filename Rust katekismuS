@@ -1,0 +1,165 @@
+Puolen tunnin pikakatsaus Rustiin – Tiivistelmä suomeksi
+
+Artikkeli "A Half-Hour to Learn Rust" tarjoaa nopean ja ytimekkään johdatuksen Rustin perusteisiin. Tässä tiivistelmä keskeisistä kohdista:
+
+
+---
+
+1. Perusasiat: muuttujat ja tulostus
+
+Rustissa muuttujat ovat oletuksena muuttumattomia (immutable). Voit tehdä niistä muokattavia mut-avainsanalla:
+
+let muuttuja = 10; // muuttumaton
+let mut toinen = 20; // muokattava
+toinen = 30; // OK, koska toinen on 'mut'
+
+Tulostaminen onnistuu println!-makrolla:
+
+println!("Hei, Rust! Arvo: {}", muuttuja);
+
+
+---
+
+2. Ohjausrakenteet: if, loop, match
+
+Rust käyttää tuttuja ehtolauseita ja silmukoita, mutta niissä on muutamia eroja muihin kieliin verrattuna.
+
+if muuttuja > 5 {
+    println!("Suurempi kuin viisi!");
+} else {
+    println!("Pienempi tai yhtä suuri.");
+}
+
+Silmukoista Rust tukee loop, while ja for:
+
+for i in 0..5 {
+    println!("Luku: {}", i);
+}
+
+match-lause on tehokas vaihtoehto switch-rakenteelle:
+
+match muuttuja {
+    1 => println!("Yksi!"),
+    2 | 3 => println!("Kaksi tai kolme!"),
+    _ => println!("Jokin muu"),
+}
+
+
+---
+
+3. Funktiot ja tyypit
+
+Funktiot määritellään fn-avainsanalla ja niiden paluuarvot määritetään nuolen (->) avulla:
+
+fn lisää_kaksi(n: i32) -> i32 {
+    n + 2 // ei tarvita `return`
+}
+
+Rust käyttää vahvaa tyyppijärjestelmää, mutta osaa myös päätellä tyypit:
+
+let luku: i32 = 10; // eksplisiittisesti määritelty tyyppi
+let toinen = 20; // Rust päättelee tyypin automaattisesti
+
+
+---
+
+4. Viitteet ja omistajuus
+
+Rustin muistiturvallisuuden takana on omistajuusjärjestelmä, joka varmistaa, ettei ohjelma käytä virheellisiä viitteitä.
+
+Säännöt:
+
+1. Jokaisella arvolla on vain yksi omistaja.
+
+
+2. Kun omistaja poistuu, arvo vapautetaan automaattisesti.
+
+
+3. Voit lainata (&) muuttujaa ilman omistajuuden siirtämistä.
+
+
+
+fn tulosta(viite: &String) {
+    println!("{}", viite);
+}
+
+fn main() {
+    let teksti = String::from("Hei!");
+    tulosta(&teksti); // OK, koska annetaan vain viite
+}
+
+Jos yrität käyttää siirrettyä omistajaa, Rust estää sen käännösvaiheessa:
+
+let s1 = String::from("Moi");
+let s2 = s1; // s1:n omistus siirtyy s2:lle
+println!("{}", s1); // VIRHE! s1 ei enää omista arvoa
+
+
+---
+
+5. Rinnakkaisuus ja asynkronisuus
+
+Rust tekee rinnakkaisuudesta turvallista ilman perinteisiä virheitä, kuten tietojen kilpailemista (data race).
+
+Voit käyttää thread::spawn-komentoa luomaan säikeitä:
+
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    thread::spawn(|| {
+        println!("Tämä ajetaan toisessa säikeessä!");
+    });
+
+    thread::sleep(Duration::from_millis(100));
+}
+
+Asynkroninen koodi toimii async ja await-avainsanoilla:
+
+async fn suorita() {
+    println!("Asynkroninen tehtävä käynnistyi!");
+}
+
+
+---
+
+6. Rustin tärkeimmät ominaisuudet tiivistettynä
+
+Muistin turvallisuus ilman roskienkeruuta
+
+Tyyppiturvallisuus ja tarkat virheentarkistukset
+
+Nopea suorituskyky, kuten C/C++
+
+Erinomainen rinnakkaisuus ilman vaarallisia virheitä
+
+Hyvä paketinhallinta ja työkalut (cargo)
+
+
+
+---
+
+Yhteenveto
+
+Rust tarjoaa turvallisen, tehokkaan ja modernin ohjelmointikokemuksen. Tämä artikkeli esitteli perusasiat noin puolessa tunnissa, mutta Rustissa on paljon syvyyttä, jota voi tutkia lisää virallisesta dokumentaatiosta tai oppimalla käytännön kautta!
+
+
+---
+
+📚 Haluatko oppia lisää?
+
+Virallinen Rust-kirja: Rust Book
+
+Rustin verkkosivut: Rust-lang.org
+
+Interaktiivinen Rust-opas: Rustlings
+
+
+
+---
+
+Siinä se! Nyt sinulla on peruskäsitys Rustista. 🚀 Jos haluat lisää yksityiskohtia, kannattaa tutustua alkuperäiseen artikkeliin:
+🔗 A Half-Hour to Learn Rust
+
+Toivottavasti tästä oli hyötyä! 😊
+
